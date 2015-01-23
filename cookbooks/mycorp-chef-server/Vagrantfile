@@ -1,0 +1,38 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.require_version ">= 1.5.0"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.hostname = "chef"
+  config.omnibus.chef_version = "11.16.2"
+
+  config.vm.box = "opscode-centos-6.5"
+  config.vm.box_url = "http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-6.5_chef-provisionerless.box"
+
+  config.vm.network "forwarded_port", guest: 80, host: 80
+  config.vm.network "forwarded_port", guest: 443, host: 443
+
+  config.vm.provision :chef_solo do |chef|
+    chef.node_name = "chef"
+    chef.cookbooks_path = "../../cookbooks"
+    chef.data_bags_path = "../../data_bags"
+    chef.encrypted_data_bag_secret_key_path = "../../insecure_data_bag_secret"
+
+    chef.json = {
+      "system" => {
+        "short_hostname" => "chef",
+        "domain_name" => "mycorp.com"
+      }
+    }
+
+    chef.add_recipe "system"
+    chef.add_recipe "mycorp-chef-server"
+    chef.add_recipe "chef-server"
+
+    chef.verbose_logging = true
+    chef.log_level = :debug
+  end
+end
