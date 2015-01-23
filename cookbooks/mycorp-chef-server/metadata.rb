@@ -7,6 +7,6 @@ long_description 'Installs/Configures mycorp-chef-server'
 
 version          '0.1.0'
 
-depends 'system'
+depends 'hostname'
 depends 'certificate'
 depends 'chef-server'

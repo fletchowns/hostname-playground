@@ -22,13 +22,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     chef.encrypted_data_bag_secret_key_path = "../../insecure_data_bag_secret"
 
     chef.json = {
-      "system" => {
-        "short_hostname" => "chef",
-        "domain_name" => "mycorp.com"
-      }
+      "set_fqdn" => "*.mycorp.com"
     }
 
-    chef.add_recipe "system"
+    chef.add_recipe "hostname"
     chef.add_recipe "mycorp-chef-server"
     chef.add_recipe "chef-server"
 
