@@ -4,3 +4,4 @@ source "https://supermarket.chef.io"
 
 metadata
 
+cookbook 'system', git: 'git://github.com/xhost-cookbooks/system.git', ref: '66052b0d1cc6a1b04ef1918ecd8dd16d3d2ec2e1'

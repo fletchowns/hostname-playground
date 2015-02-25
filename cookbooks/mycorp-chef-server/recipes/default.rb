@@ -18,7 +18,9 @@ template "/template_test" do
 	source "dummy_template.erb"
 	mode 0644
 	action :create_if_missing
-	variables({
-		:fqdn => node['fqdn']
-	})
+	variables lazy {
+		{
+			fqdn: node['fqdn']
+		}
+	}
 end
